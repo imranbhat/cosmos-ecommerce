@@ -14,8 +14,14 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private org.springframework.core.env.Environment environment;
+
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ProductController.class);
+
     @GetMapping
     public List<Product> getAllProducts() {
+        logger.info("Get all products request handled by port: {}", environment.getProperty("local.server.port"));
         return productRepository.findAll();
     }
 

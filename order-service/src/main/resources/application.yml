@@ -22,6 +22,13 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 
+# gRPC Client Configuration
+grpc:
+  client:
+    inventory-service:
+      address: static://localhost:9092
+      negotiationType: plaintext
+
 resilience4j:
   circuitbreaker:
     instances:

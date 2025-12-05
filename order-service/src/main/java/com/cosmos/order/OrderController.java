@@ -1,8 +1,9 @@
 package com.cosmos.order;
 
-import com.cosmos.order.client.InventoryClient;
 import com.cosmos.order.client.ProductClient;
 import com.cosmos.order.client.UserClient;
+import com.cosmos.order.grpc.DeductInventoryResponse;
+import com.cosmos.order.grpc.InventoryGrpcClient;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,7 @@ public class OrderController {
     private ProductClient productClient;
 
     @Autowired
-    private InventoryClient inventoryClient;
+    private InventoryGrpcClient inventoryGrpcClient;
 
     @Autowired
     private UserClient userClient;
@@ -52,12 +53,20 @@ public class OrderController {
             return "User not found";
         }
 
-        // Validate Inventory and Deduct
+        // Validate Inventory and Deduct using gRPC
         try {
-            logger.info("Calling Inventory Service to deduct quantity: {}", order.getQuantity());
-            inventoryClient.deductQuantity(order.getProductId(), order.getQuantity());
+            logger.info("Calling Inventory Service via gRPC to deduct quantity: {}", order.getQuantity());
+            DeductInventoryResponse response = inventoryGrpcClient.deductInventory(order.getProductId(),
+                    order.getQuantity());
+
+            if (!response.getSuccess()) {
+                logger.error("Inventory deduction failed: {}", response.getMessage());
+                return "Inventory deduction failed: " + response.getMessage();
+            }
+            logger.info("Inventory deduction successful via gRPC. Remaining quantity: {}",
+                    response.getRemainingQuantity());
         } catch (Exception e) {
-            logger.error("Inventory deduction failed", e);
+            logger.error("Inventory deduction failed via gRPC", e);
             return "Inventory deduction failed. Product might be out of stock or service unavailable.";
         }
 

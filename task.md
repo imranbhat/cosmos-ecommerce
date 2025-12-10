@@ -1,0 +1,29 @@
+# OpenShift Production Deployment (K8s Native)
+
+- [x] Analyze application dependencies and configuration `docker-compose.yml`
+- [x] Create Implementation Plan `implementation_plan.md`
+    - [x] Plan K8s Native Architecture (No Eureka, No SC Gateway)
+- [x] Refactor Microservices for K8s Native
+    - [x] **API Gateway**: Remove/Deprecate (Ignored in deployment)
+    - [x] **All Services**: Remove Eureka Dependencies (`pom.xml` & `application.yml`)
+    - [x] **All Services**: Update Feign/WebClient to use K8s DNS (e.g., `url: http://inventory-service:8080`)
+    - [x] **Product Service**: Remove Eureka
+    - [x] **Order Service**: Remove Eureka & Update Clients
+    - [x] **Inventory Service**: Remove Eureka
+    - [x] **User Service**: Remove Eureka
+- [x] Cleanup Legacy Code
+    - [x] Delete `api-gateway` directory
+    - [x] Delete `discovery-service` directory
+    - [x] Delete `*.log` files
+    - [x] Delete `test_output.txt`
+    - [x] Remove "API Gateway" from `postman_collection.json`
+- [x] Generate OpenShift Manifests
+    - [x] Database Manifests (StatefulSets, Ephemeral Storage)
+        - [x] PostgreSQL (User, Order, Inventory, Product DBs)
+    - [x] Service Manifests (Deployments, Services, ConfigMaps)
+        - [x] Microservices (Order, Inventory, Product, User)
+    - [x] Ingress/Routes (Direct Service exposure)
+    - [x] ConfigMaps and Secrets
+    - [x] **Documentation**: Create `openshift/README.md`
+- [x] Verify Manifests (Automated Build Check Passed)
+- [x] Create Walkthrough `walkthrough.md`

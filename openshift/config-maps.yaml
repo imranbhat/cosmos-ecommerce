@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: global-config
+data:
+  # Database Hostnames (matching Service names in databases.yaml)
+  PRODUCT_DB_HOST: product-db
+  ORDER_DB_HOST: order-db
+  INVENTORY_DB_HOST: inventory-db
+  USER_DB_HOST: user-db
+
+  # Service URLs (for internal K8s DNS)
+  PRODUCT_SERVICE_URL: http://product-service:8080
+  ORDER_SERVICE_URL: http://order-service:8080
+  INVENTORY_SERVICE_URL: http://inventory-service:8080
+  USER_SERVICE_URL: http://user-service:8080

@@ -1,0 +1,54 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: product-service
+spec:
+  to:
+    kind: Service
+    name: product-service
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: order-service
+spec:
+  to:
+    kind: Service
+    name: order-service
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: inventory-service
+spec:
+  to:
+    kind: Service
+    name: inventory-service
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: user-service
+spec:
+  to:
+    kind: Service
+    name: user-service
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge

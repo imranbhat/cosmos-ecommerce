@@ -6,13 +6,6 @@ on:
   pull_request:
     branches: ["main"]
 
-env:
-  # Replace with your actual registry username/org
-  REGISTRY_USER: ${{ secrets.DOCKERHUB_USERNAME }}
-  REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
-  # Example: docker.io/myusername
-  REGISTRY_URL: docker.io
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -37,12 +30,12 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ env.REGISTRY_USER }}
-          password: ${{ env.REGISTRY_PASSWORD }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and Push Docker image
         uses: docker/build-push-action@v5
         with:
           context: ./${{ matrix.service }}
           push: true
-          tags: ${{ env.REGISTRY_USER }}/${{ matrix.service }}:latest,${{ env.REGISTRY_USER }}/${{ matrix.service }}:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:latest,${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:${{ github.sha }}

@@ -27,3 +27,5 @@
     - [x] **Documentation**: Create `openshift/README.md`
 - [x] Verify Manifests (Automated Build Check Passed)
 - [x] Create Walkthrough `walkthrough.md`
+- [x] **Git**: Push changes to remote repository (Committed locally)
+- [ ] **CI/CD**: Create GitHub Actions Workflow

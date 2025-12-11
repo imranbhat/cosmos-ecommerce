@@ -16,20 +16,28 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:15-alpine
+          # Red Hat certified PostgreSQL 15 image
+          image: registry.redhat.io/rhel9/postgresql-15:latest
           ports:
             - containerPort: 5432
           env:
-            - name: POSTGRES_DB
+            - name: POSTGRESQL_DATABASE
               value: product_db
-            - name: POSTGRES_USER
-              value: postgres
-            - name: POSTGRES_PASSWORD
+            - name: POSTGRESQL_USER
+              value: cosmos_user
+            - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: db-secrets
                   key: POSTGRES_PASSWORD
-          # Ephemeral storage (no volumeMounts/PVCs)
+            # Ephemeral storage (no volumeMounts/PVCs)
+          volumeMounts:
+            - mountPath: /dev/shm
+              name: dshm
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
 ---
 apiVersion: v1
 kind: Service
@@ -60,19 +68,26 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:15-alpine
+          image: registry.redhat.io/rhel9/postgresql-15:latest
           ports:
             - containerPort: 5432
           env:
-            - name: POSTGRES_DB
+            - name: POSTGRESQL_DATABASE
               value: order_db
-            - name: POSTGRES_USER
-              value: postgres
-            - name: POSTGRES_PASSWORD
+            - name: POSTGRESQL_USER
+              value: cosmos_user
+            - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: db-secrets
                   key: POSTGRES_PASSWORD
+          volumeMounts:
+            - mountPath: /dev/shm
+              name: dshm
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
 ---
 apiVersion: v1
 kind: Service
@@ -103,19 +118,26 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:15-alpine
+          image: registry.redhat.io/rhel9/postgresql-15:latest
           ports:
             - containerPort: 5432
           env:
-            - name: POSTGRES_DB
+            - name: POSTGRESQL_DATABASE
               value: inventory_db
-            - name: POSTGRES_USER
-              value: postgres
-            - name: POSTGRES_PASSWORD
+            - name: POSTGRESQL_USER
+              value: cosmos_user
+            - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: db-secrets
                   key: POSTGRES_PASSWORD
+          volumeMounts:
+            - mountPath: /dev/shm
+              name: dshm
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
 ---
 apiVersion: v1
 kind: Service
@@ -146,19 +168,26 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:15-alpine
+          image: registry.redhat.io/rhel9/postgresql-15:latest
           ports:
             - containerPort: 5432
           env:
-            - name: POSTGRES_DB
+            - name: POSTGRESQL_DATABASE
               value: user_db
-            - name: POSTGRES_USER
-              value: postgres
-            - name: POSTGRES_PASSWORD
+            - name: POSTGRESQL_USER
+              value: cosmos_user
+            - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: db-secrets
                   key: POSTGRES_PASSWORD
+          volumeMounts:
+            - mountPath: /dev/shm
+              name: dshm
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
 ---
 apiVersion: v1
 kind: Service

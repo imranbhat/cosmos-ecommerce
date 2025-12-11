@@ -17,7 +17,7 @@ spec:
       containers:
         - name: product-service
           # REPLACE WITH YOUR IMAGE
-          image: image-registry.openshift-image-registry.svc:5000/myproject/product-service:latest
+          image: imranbhat/product-service:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -27,7 +27,7 @@ spec:
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://$(PRODUCT_DB_HOST):5432/product_db
             - name: SPRING_DATASOURCE_USERNAME
-              value: postgres
+              value: cosmos_user
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -80,7 +80,7 @@ spec:
     spec:
       containers:
         - name: inventory-service
-          image: image-registry.openshift-image-registry.svc:5000/myproject/inventory-service:latest
+          image: imranbhat/inventory-service:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -93,7 +93,7 @@ spec:
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://$(INVENTORY_DB_HOST):5432/inventory_db
             - name: SPRING_DATASOURCE_USERNAME
-              value: postgres
+              value: cosmos_user
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -150,7 +150,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: image-registry.openshift-image-registry.svc:5000/myproject/user-service:latest
+          image: imranbhat/user-service:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -160,7 +160,7 @@ spec:
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://$(USER_DB_HOST):5432/user_db
             - name: SPRING_DATASOURCE_USERNAME
-              value: postgres
+              value: cosmos_user
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -213,7 +213,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: image-registry.openshift-image-registry.svc:5000/myproject/order-service:latest
+          image: imranbhat/order-service:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -223,7 +223,7 @@ spec:
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://$(ORDER_DB_HOST):5432/order_db
             - name: SPRING_DATASOURCE_USERNAME
-              value: postgres
+              value: cosmos_user
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
